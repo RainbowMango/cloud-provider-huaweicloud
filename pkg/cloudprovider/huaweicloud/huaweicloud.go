@@ -50,6 +50,7 @@ type CloudConfig struct {
 }
 
 func init() {
+	klog.Warningf("Register provider: %s", providerName)
 	cloudprovider.RegisterCloudProvider(providerName, newCloud)
 }
 
