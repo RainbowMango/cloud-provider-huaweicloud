@@ -31,7 +31,7 @@ import (
 
 	"k8s.io/client-go/util/flowcontrol"
 	"k8s.io/klog"
-	"sigs.k8s.io/cloud-provider-huaweicloud/pkg/apigw/core"
+	"sigs.k8s.io/cloud-provider-huaweicloud/pkg/legacy/apigwv3/core"
 )
 
 const (
@@ -169,8 +169,10 @@ func DoRequest(service *ServiceClient, throttle flowcontrol.RateLimiter, r *requ
 	// add the sign to request header if needed.
 	if service.Access != nil {
 		sign := core.Signer{
-			Key:    service.Access.AccessKey,
-			Secret: service.Access.SecretKey,
+			AccessKey: service.Access.AccessKey,
+			SecretKey: service.Access.SecretKey,
+			Region:    service.Access.Region,
+			Service:   "ecs",
 		}
 		req.Header.Set(HeaderProject, service.TenantId)
 
