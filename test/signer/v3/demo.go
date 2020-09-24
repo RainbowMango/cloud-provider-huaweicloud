@@ -31,8 +31,15 @@ func demoApp() {
 	req.Header.Add("X-Project-Id", "88eecb5e3034473c817407e590eb3bca")
 	req.Header.Add("x-sdk-date", "20190829T122203Z")
 	if err := sign.Sign(req); err != nil {
+		fmt.Printf("sign failed with error: %v\n", err)
+		return
+	}
+
+	_, err = http.DefaultClient.Do(req)
+	if err != nil {
 		fmt.Printf("request failed with error: %v\n", err)
 		return
 	}
+
 	fmt.Printf("Congratulations! Your authentication information is suitable.\n")
 }
