@@ -35,11 +35,20 @@ func demoApp() {
 		return
 	}
 
-	_, err = http.DefaultClient.Do(req)
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		fmt.Printf("request failed with error: %v\n", err)
 		return
 	}
+	fmt.Printf("response HTTP code: %v\n", resp.StatusCode)
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Printf("read response body failed with error: %v\n", err)
+		return
+	}
+	defer resp.Body.Close()
+	fmt.Printf("Body: %v\n", string(body))
 
 	fmt.Printf("Congratulations! Your authentication information is suitable.\n")
 }
