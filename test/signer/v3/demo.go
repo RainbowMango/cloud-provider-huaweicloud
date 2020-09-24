@@ -78,15 +78,13 @@ func main() {
 		fmt.Printf("request failed with error: %v\n", err)
 		return
 	}
-	fmt.Printf("response HTTP code: %v\n", resp.StatusCode)
 
-	body, err := ioutil.ReadAll(resp.Body)
+	var servers huaweicloud.EcsServers
+	err = huaweicloud.DecodeBody(resp, &servers)
 	if err != nil {
-		fmt.Printf("read response body failed with error: %v\n", err)
+		fmt.Printf("decode response body failed with error: %v\n", err)
 		return
 	}
-	defer resp.Body.Close()
-	fmt.Printf("Body: %v\n", string(body))
 
 	fmt.Printf("Congratulations! Your authentication information is suitable.\n")
 }
